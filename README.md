@@ -10,6 +10,11 @@ Open source project:
 - <i class="fa fa-fw fa-laptop"></i> technology: *debian*, *keras*, *theano*, *tensorflow*, *openblas*, *cuda toolkit*, *python*, *numpy*, *h5py*, *matplotlib*, *jupyter*
 - <i class="fa fa-fw fa-database"></i> docker hub: <http://hub.docker.com/r/gw000/keras-full/>
 
+Available tags:
+
+- `1.0.6`, `latest` [2016-07-20]: *Python 2.7/3.5* + *Keras* <small>(1.0.6)</small> + *TensorFlow* <small>(0.9.0)</small> + *Theano* <small>(0.8.2)</small> on CPU/GPU
+- `1.0.4` [2016-06-16]: *Python 2.7/3.5* + *Keras* <small>(1.0.4)</small> + *TensorFlow* <small>(0.8.0)</small> + *Theano* <small>(0.8.2)</small> on CPU/GPU
+
 
 Usage
 =====
