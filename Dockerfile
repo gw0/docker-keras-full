@@ -29,6 +29,8 @@ RUN apt-get update -qq \
     python3-h5py \
     python3-yaml \
     python3-pydot \
+    # requirements for matplotlib
+    python3-matplotlib \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
