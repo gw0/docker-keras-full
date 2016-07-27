@@ -3,15 +3,15 @@
 FROM gw000/keras:1.0.6-gpu
 MAINTAINER gw0 [http://gw.tnode.com/] <gw.2016@tnode.com>
 
-# install py2-tf-cpu/gpu (Python2, TensorFlow, CPU/GPU)
+# install py2-tf-cpu/gpu (Python 2, TensorFlow, CPU/GPU)
 # (already installed in upstream image)
 
-# install py2-th-cpu (Python2, Theano, CPU/GPU)
+# install py2-th-cpu (Python 2, Theano, CPU/GPU)
 ARG THEANO_VERSION=0.8.2
 ENV THEANO_FLAGS='device=cpu,floatX=float32'
 RUN pip --no-cache-dir install git+https://github.com/Theano/Theano.git@rel-${THEANO_VERSION}
 
-# install py3-tf-cpu/gpu (Python2, TensorFlow, CPU/GPU)
+# install py3-tf-cpu/gpu (Python 3, TensorFlow, CPU/GPU)
 RUN apt-get update -qq \
  && apt-get install --no-install-recommends -y \
     # install python 3
@@ -35,14 +35,14 @@ RUN apt-get update -qq \
  && rm -rf /var/lib/apt/lists/*
 
 ARG TENSORFLOW_VERSION=0.9.0
-ARG TENSORFLOW_DEVICE=cpu
+ARG TENSORFLOW_DEVICE=gpu
 RUN pip3 --no-cache-dir install https://storage.googleapis.com/tensorflow/linux/${TENSORFLOW_DEVICE}/tensorflow-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl
 
 ARG KERAS_VERSION=1.0.6
 ENV KERAS_BACKEND=tensorflow
 RUN pip3 --no-cache-dir install git+https://github.com/fchollet/keras.git@${KERAS_VERSION}
 
-# install py3-th-cpu/gpu (Python2, Theano, CPU/GPU)
+# install py3-th-cpu/gpu (Python 3, Theano, CPU/GPU)
 ARG THEANO_VERSION=0.8.2
 ENV THEANO_FLAGS='device=cpu,floatX=float32'
 RUN pip3 --no-cache-dir install git+https://github.com/Theano/Theano.git@rel-${THEANO_VERSION}
