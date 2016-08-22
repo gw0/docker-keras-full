@@ -47,7 +47,7 @@ ARG THEANO_VERSION=0.8.2
 ENV THEANO_FLAGS='device=cpu,floatX=float32'
 RUN pip3 --no-cache-dir install git+https://github.com/Theano/Theano.git@rel-${THEANO_VERSION}
 
-# install jupyter ipython
+# install jupyter notebook and ipython (Python 2 and 3)
 RUN pip --no-cache-dir install \
     ipython \
     ipykernel \
@@ -57,6 +57,20 @@ RUN pip --no-cache-dir install \
     ipython \
     ipykernel \
  && python3 -m ipykernel.kernelspec
+
+# install system tools
+RUN apt-get update -qq \
+ && apt-get install --no-install-recommends -y \
+    less \
+    procps \
+    vim-tiny \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
+# configure console
+RUN echo 'alias ll="ls --color=auto -lA"' >> /root/.bashrc \
+ && echo '"\e[5~": history-search-backward' >> /root/.inputrc \
+ && echo '"\e[6~": history-search-forward' >> /root/.inputrc
 
 # dump package lists
 RUN dpkg-query -l > /dpkg-query-l.txt \
