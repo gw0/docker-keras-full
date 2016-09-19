@@ -12,7 +12,7 @@ ENV THEANO_FLAGS='device=cpu,floatX=float32'
 RUN pip --no-cache-dir install git+https://github.com/Theano/Theano.git@rel-${THEANO_VERSION}
 
 # install py3-tf-cpu/gpu (Python 3, TensorFlow, CPU/GPU)
-RUN (apt-get update -qq || true) \  
+RUN apt-get update -qq \
  && apt-get install --no-install-recommends -y \
     # install python 3
     python3 \
@@ -59,7 +59,7 @@ RUN pip --no-cache-dir install \
  && python3 -m ipykernel.kernelspec
 
 # install system tools
-RUN (apt-get update -qq || true) \  
+RUN apt-get update -qq \
  && apt-get install --no-install-recommends -y \
     less \
     procps \
