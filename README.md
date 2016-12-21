@@ -12,7 +12,8 @@ Open source project:
 
 Available tags:
 
-- `1.1.0`, `latest` [2016-09-20]: *Python 2.7/3.5* + *Keras* <small>(1.1.0)</small> + *TensorFlow* <small>(0.10.0)</small> + *Theano* <small>(0.8.2)</small> on CPU/GPU
+- `1.2.0`, `latest` [2016-12-21]: *Python 2.7/3.5* + *Keras* <small>(1.2.0)</small> + *TensorFlow* <small>(0.12.0)</small> + *Theano* <small>(0.8.2)</small> on CPU/GPU
+- `1.1.0` [2016-09-20]: *Python 2.7/3.5* + *Keras* <small>(1.1.0)</small> + *TensorFlow* <small>(0.10.0)</small> + *Theano* <small>(0.8.2)</small> on CPU/GPU
 - `1.0.8` [2016-08-28]: *Python 2.7/3.5* + *Keras* <small>(1.0.8)</small> + *TensorFlow* <small>(0.9.0)</small> + *Theano* <small>(0.8.2)</small> on CPU/GPU
 - `1.0.6` [2016-07-20]: *Python 2.7/3.5* + *Keras* <small>(1.0.6)</small> + *TensorFlow* <small>(0.9.0)</small> + *Theano* <small>(0.8.2)</small> on CPU/GPU
 - `1.0.4` [2016-06-16]: *Python 2.7/3.5* + *Keras* <small>(1.0.4)</small> + *TensorFlow* <small>(0.8.0)</small> + *Theano* <small>(0.8.2)</small> on CPU/GPU
@@ -21,13 +22,14 @@ Available tags:
 Usage
 =====
 
-Quick experiment from console IPython:
+Quick experiment from console with IPython 2.7 or 3.5:
 
 ```bash
-$ docker run -it --rm gw000/keras-full ipython
+$ docker run -it --rm gw000/keras-full ipython2
+$ docker run -it --rm gw000/keras-full ipython3
 ```
 
-To start the Jupyter IPython web interface on `http://<ip>:8888/` and notebooks stored in `/srv/notebooks`:
+To start the Jupyter IPython web interface on `http://<ip>:8888/` (password: `keras`) and notebooks stored in `/srv/notebooks`:
 
 ```bash
 $ docker run -d -p=6006:6006 -p=8888:8888 -v=/srv/notebooks:/srv gw000/keras-full
@@ -37,6 +39,12 @@ To utilize your GPUs this Docker image needs access to your `/dev/nvidia*` devic
 
 ```bash
 $ docker run -d $(ls /dev/nvidia* | xargs -I{} echo '--device={}') -p=6006:6006 -p=8888:8888 -v=/srv/notebooks:/srv gw000/keras-full
+```
+
+To change the default password, prepare [a new hashed password](https://jupyter-notebook.readthedocs.io/en/latest/public_server.html#preparing-a-hashed-password) and pass it as an environment variable:
+
+```bash
+$ docker run -d -p=6006:6006 -p=8888:8888 -e PASSWD="sha1:..." -v=/srv/notebooks:/srv gw000/keras-full
 ```
 
 

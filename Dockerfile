@@ -1,6 +1,6 @@
 # docker-debian-cuda - Debian 9 with CUDA Toolkit
 
-FROM gw000/keras:1.1.0-gpu
+FROM gw000/keras:1.2.0-gpu
 MAINTAINER gw0 [http://gw.tnode.com/] <gw.2016@tnode.com>
 
 # install py2-tf-cpu/gpu (Python 2, TensorFlow, CPU/GPU)
@@ -34,11 +34,12 @@ RUN apt-get update -qq \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-ARG TENSORFLOW_VERSION=0.10.0
+ARG TENSORFLOW_VERSION=0.12.0
 ARG TENSORFLOW_DEVICE=gpu
-RUN pip3 --no-cache-dir install https://storage.googleapis.com/tensorflow/linux/${TENSORFLOW_DEVICE}/tensorflow-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl
+ARG TENSORFLOW_APPEND=_gpu
+RUN pip3 --no-cache-dir install https://storage.googleapis.com/tensorflow/linux/${TENSORFLOW_DEVICE}/tensorflow${TENSORFLOW_APPEND}-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl
 
-ARG KERAS_VERSION=1.1.0
+ARG KERAS_VERSION=1.2.0
 ENV KERAS_BACKEND=tensorflow
 RUN pip3 --no-cache-dir install git+https://github.com/fchollet/keras.git@${KERAS_VERSION}
 
@@ -71,6 +72,8 @@ RUN apt-get update -qq \
 RUN echo 'alias ll="ls --color=auto -lA"' >> /root/.bashrc \
  && echo '"\e[5~": history-search-backward' >> /root/.inputrc \
  && echo '"\e[6~": history-search-forward' >> /root/.inputrc
+# default password: keras
+ENV PASSWD='sha1:98b767162d34:8da1bc3c75a0f29145769edc977375a373407824'
 
 # dump package lists
 RUN dpkg-query -l > /dpkg-query-l.txt \
@@ -83,4 +86,4 @@ EXPOSE 8888
 EXPOSE 6006
 
 WORKDIR /srv/
-CMD /bin/bash -c 'jupyter notebook --no-browser --ip=* "$@"'
+CMD /bin/bash -c 'jupyter notebook --no-browser --ip=* --NotebookApp.password="$PASSWD" "$@"'
