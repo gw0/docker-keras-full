@@ -29,8 +29,6 @@ RUN apt-get update -qq \
     python3-h5py \
     python3-yaml \
     python3-pydot \
-    # requirements for matplotlib
-    python3-matplotlib \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
@@ -48,25 +46,41 @@ ARG THEANO_VERSION=0.8.2
 ENV THEANO_FLAGS='device=cpu,floatX=float32'
 RUN pip3 --no-cache-dir install git+https://github.com/Theano/Theano.git@rel-${THEANO_VERSION}
 
-# install jupyter notebook and ipython (Python 2 and 3)
-RUN pip --no-cache-dir install \
-    ipython \
-    ipykernel \
-    jupyter \
- && python -m ipykernel.kernelspec \
- && pip3 --no-cache-dir install \
-    ipython \
-    ipykernel \
- && python3 -m ipykernel.kernelspec
-
-# install system tools
+# install additional debian packages
 RUN apt-get update -qq \
  && apt-get install --no-install-recommends -y \
+    # system tools
     less \
     procps \
     vim-tiny \
+    # visualization (Python 2 and 3)
+    python-matplotlib \
+    python-pillow \
+    python3-matplotlib \
+    python3-pillow \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
+
+# install additional python packages
+RUN pip --no-cache-dir install \
+    # jupyter notebook and ipython (Python 2)
+    ipython \
+    ipykernel \
+    jupyter \
+    # data analysis (Python 2)
+    pandas \
+    scikit-learn \
+    statsmodels \
+ && python -m ipykernel.kernelspec \
+ && pip3 --no-cache-dir install \
+    # jupyter notebook and ipython (Python 3)
+    ipython \
+    ipykernel \
+    # data analysis (Python 3)
+    pandas \
+    scikit-learn \
+    statsmodels \
+ && python3 -m ipykernel.kernelspec
 
 # configure console
 RUN echo 'alias ll="ls --color=auto -lA"' >> /root/.bashrc \

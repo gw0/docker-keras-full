@@ -7,7 +7,7 @@ Open source project:
 
 - <i class="fa fa-fw fa-home"></i> home: <http://gw.tnode.com/docker/keras-full/>
 - <i class="fa fa-fw fa-github-square"></i> github: <http://github.com/gw0/docker-keras-full/>
-- <i class="fa fa-fw fa-laptop"></i> technology: *debian*, *keras*, *theano*, *tensorflow*, *openblas*, *cuda toolkit*, *python*, *numpy*, *h5py*, *matplotlib*, *jupyter*
+- <i class="fa fa-fw fa-laptop"></i> technology: *debian*, *keras*, *theano*, *tensorflow*, *openblas*, *cuda toolkit*, *python*, *numpy*, *h5py*, *jupyter*, *matplotlib*, *pillow*, *pandas*, *scikit-learn*, *statsmodels*
 - <i class="fa fa-fw fa-database"></i> docker hub: <http://hub.docker.com/r/gw000/keras-full/>
 
 Available tags:
