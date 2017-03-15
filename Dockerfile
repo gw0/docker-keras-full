@@ -1,7 +1,7 @@
 # docker-debian-cuda - Debian 9 with CUDA Toolkit
 
-FROM gw000/keras:1.2.0-gpu
-MAINTAINER gw0 [http://gw.tnode.com/] <gw.2016@tnode.com>
+FROM gw000/keras:2.0.0-gpu
+MAINTAINER gw0 [http://gw.tnode.com/] <gw.2017@ena.one>
 
 # install py2-tf-cpu/gpu (Python 2, TensorFlow, CPU/GPU)
 # (already installed in upstream image)
@@ -32,12 +32,12 @@ RUN apt-get update -qq \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-ARG TENSORFLOW_VERSION=0.12.0
+ARG TENSORFLOW_VERSION=1.0.1
 ARG TENSORFLOW_DEVICE=gpu
 ARG TENSORFLOW_APPEND=_gpu
 RUN pip3 --no-cache-dir install https://storage.googleapis.com/tensorflow/linux/${TENSORFLOW_DEVICE}/tensorflow${TENSORFLOW_APPEND}-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl
 
-ARG KERAS_VERSION=1.2.0
+ARG KERAS_VERSION=2.0.0
 ENV KERAS_BACKEND=tensorflow
 RUN pip3 --no-cache-dir install git+https://github.com/fchollet/keras.git@${KERAS_VERSION}
 

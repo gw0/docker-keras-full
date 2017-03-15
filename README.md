@@ -12,7 +12,8 @@ Open source project:
 
 Available tags:
 
-- `1.2.0`, `latest` [2016-12-21]: *Python 2.7/3.5* + *Keras* <small>(1.2.0)</small> + *TensorFlow* <small>(0.12.0)</small> + *Theano* <small>(0.8.2)</small> on CPU/GPU
+- `2.0.0`, `latest` [2017-03-15]: *Python 2.7/3.5* + *Keras* <small>(2.0.0)</small> + *TensorFlow* <small>(1.0.1)</small> + *Theano* <small>(0.8.2)</small> on CPU/GPU
+- `1.2.0` [2016-12-21]: *Python 2.7/3.5* + *Keras* <small>(1.2.0)</small> + *TensorFlow* <small>(0.12.0)</small> + *Theano* <small>(0.8.2)</small> on CPU/GPU
 - `1.1.0` [2016-09-20]: *Python 2.7/3.5* + *Keras* <small>(1.1.0)</small> + *TensorFlow* <small>(0.10.0)</small> + *Theano* <small>(0.8.2)</small> on CPU/GPU
 - `1.0.8` [2016-08-28]: *Python 2.7/3.5* + *Keras* <small>(1.0.8)</small> + *TensorFlow* <small>(0.9.0)</small> + *Theano* <small>(0.8.2)</small> on CPU/GPU
 - `1.0.6` [2016-07-20]: *Python 2.7/3.5* + *Keras* <small>(1.0.6)</small> + *TensorFlow* <small>(0.9.0)</small> + *Theano* <small>(0.8.2)</small> on CPU/GPU
