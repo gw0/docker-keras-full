@@ -53,6 +53,9 @@ RUN apt-get update -qq \
     less \
     procps \
     vim-tiny \
+    # build dependencies
+    build-essential \
+    libffi-dev \
     # visualization (Python 2 and 3)
     python-matplotlib \
     python-pillow \
