@@ -1,13 +1,13 @@
 docker-keras-full
 =================
 
-***docker-keras-full*** is a [*Docker*](http://www.docker.com/) image built from *Debian 9* (amd64) with a full reproducible deep learning research environment based on [*Keras*](http://keras.io/) and [*Jupyter*](http://jupyter.org/). It supports CPU and GPU processing with [*Theano*](http://deeplearning.net/software/theano/) and [*TensorFlow*](http://www.tensorflow.org/) backends. It features *Jupyter Notebook* with *Python 2 and 3* support and uses only Debian and Python packages (no manual installations).
+***docker-keras-full*** is a [*Docker*](http://www.docker.com/) image built from *Debian 9* (amd64) with a full reproducible deep learning research environment based on [*Keras*](http://keras.io/) and [*Jupyter*](http://jupyter.org/). It supports CPU and GPU processing with [*TensorFlow*](http://www.tensorflow.org/), [*Theano*](http://deeplearning.net/software/theano/) and [*CNTK*](https://docs.microsoft.com/en-us/cognitive-toolkit/) backends. It features *Jupyter Notebook* with *Python 2 and 3* support and uses only Debian and Python packages (no manual installations).
 
 Open source project:
 
 - <i class="fa fa-fw fa-home"></i> home: <http://gw.tnode.com/docker/keras-full/>
 - <i class="fa fa-fw fa-github-square"></i> github: <http://github.com/gw0/docker-keras-full/>
-- <i class="fa fa-fw fa-laptop"></i> technology: *debian*, *keras*, *theano*, *tensorflow*, *openblas*, *cuda toolkit*, *python*, *numpy*, *h5py*, *jupyter*, *matplotlib*, *pillow*, *pandas*, *scikit-learn*, *statsmodels*
+- <i class="fa fa-fw fa-laptop"></i> technology: *debian*, *keras*, *theano*, *tensorflow*, *cntk*, *openblas*, *cuda toolkit*, *python*, *python3*, *numpy*, *h5py*, *jupyter*, *matplotlib*, *pillow*, *pandas*, *scikit-learn*, *statsmodels*
 - <i class="fa fa-fw fa-database"></i> docker hub: <http://hub.docker.com/r/gw000/keras-full/>
 
 Available tags:
@@ -37,10 +37,10 @@ To start the Jupyter IPython web interface on `http://<ip>:8888/` (password: `ke
 $ docker run -d -p=6006:6006 -p=8888:8888 -v=/srv/notebooks:/srv gw000/keras-full
 ```
 
-To utilize your GPUs this Docker image needs access to your `/dev/nvidia*` devices (see [docker-debian-cuda](http://gw.tnode.com/docker/debian-cuda/)), like:
+To utilize your GPUs this Docker image needs access to your `/dev/nvidia*` devices and libraries (see [docker-debian-cuda](http://gw.tnode.com/docker/debian-cuda/)), like:
 
 ```bash
-$ docker run -d $(ls /dev/nvidia* | xargs -I{} echo '--device={}') -p=6006:6006 -p=8888:8888 -v=/srv/notebooks:/srv gw000/keras-full
+$ docker run -d $(ls /dev/nvidia* | xargs -I{} echo '--device={}') $(ls /usr/lib/*-linux-gnu/{libcuda,libnvidia}* | xargs -I{} echo '-v {}:{}:ro') -p=6006:6006 -p=8888:8888 -v=/srv/notebooks:/srv gw000/keras-full
 ```
 
 To change the default password, prepare [a new hashed password](https://jupyter-notebook.readthedocs.io/en/latest/public_server.html#preparing-a-hashed-password) and pass it as an environment variable:
