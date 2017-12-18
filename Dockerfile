@@ -18,6 +18,7 @@ RUN apt-get update -qq \
  && apt-get install --no-install-recommends -y \
     # other repositories
     ubuntu-archive-keyring \
+ && apt-get update -qq \
  && apt-get install --no-install-recommends -y \
     # requirements for cntk
     openmpi-bin=1.10.2-8ubuntu1 \
