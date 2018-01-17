@@ -1,13 +1,13 @@
-# docker-debian-cuda - Debian 9 with CUDA Toolkit
+# docker-keras-full - Deep learning environment with *Keras* and *Jupyter* using CPU or GPU
 
-FROM gw000/keras:2.1.1-gpu
+FROM gw000/keras:2.1.3-gpu
 MAINTAINER gw0 [http://gw.tnode.com/] <gw.2018@ena.one>
 
 # install py2-tf-cpu/gpu (Python 2, TensorFlow, CPU/GPU)
 # (already installed in upstream image)
 
 # install py2-th-cpu (Python 2, Theano, CPU/GPU)
-ARG THEANO_VERSION=1.0.0
+ARG THEANO_VERSION=1.0.1
 ENV THEANO_FLAGS='device=cpu,floatX=float32'
 RUN pip --no-cache-dir install git+https://github.com/Theano/Theano.git@rel-${THEANO_VERSION}
 
@@ -55,13 +55,13 @@ RUN apt-get update -qq \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-ARG TENSORFLOW_VERSION=1.4.0
+ARG TENSORFLOW_VERSION=1.4.1
 ARG TENSORFLOW_DEVICE=gpu
 ARG TENSORFLOW_APPEND=_gpu
 RUN pip3 --no-cache-dir install https://storage.googleapis.com/tensorflow/linux/${TENSORFLOW_DEVICE}/tensorflow${TENSORFLOW_APPEND}-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl
 
 # install py3-th-cpu/gpu (Python 3, Theano, CPU/GPU)
-ARG THEANO_VERSION=1.0.0
+ARG THEANO_VERSION=1.0.1
 ENV THEANO_FLAGS='device=cpu,floatX=float32'
 RUN pip3 --no-cache-dir install git+https://github.com/Theano/Theano.git@rel-${THEANO_VERSION}
 
@@ -71,7 +71,7 @@ ARG CNTK_DEVICE=GPU
 RUN pip3 --no-cache-dir install https://cntk.ai/PythonWheel/${CNTK_DEVICE}/cntk-${CNTK_VERSION}-cp35-cp35m-linux_x86_64.whl
 
 # install Keras for Python 3
-ARG KERAS_VERSION=2.1.1
+ARG KERAS_VERSION=2.1.3
 ENV KERAS_BACKEND=tensorflow
 RUN pip3 --no-cache-dir install --no-dependencies git+https://github.com/fchollet/keras.git@${KERAS_VERSION}
 
@@ -123,7 +123,8 @@ RUN echo 'alias ll="ls --color=auto -lA"' >> /root/.bashrc \
 ENV PASSWD='sha1:98b767162d34:8da1bc3c75a0f29145769edc977375a373407824'
 
 # quick test and dump package lists
-RUN python -c "import tensorflow; print(tensorflow.__version__)" \
+RUN jupyter notebook --version \
+ && python -c "import tensorflow; print(tensorflow.__version__)" \
  && python -c "import theano; print(theano.__version__)" \
  && python -c "import cntk; print(cntk.__version__)" \
  && python3 -c "import tensorflow; print(tensorflow.__version__)" \
@@ -138,5 +139,12 @@ EXPOSE 8888
 # for tensorboard
 EXPOSE 6006
 
+# (for any user and remote access)
 WORKDIR /srv/
-CMD /bin/bash -c 'jupyter notebook --no-browser --ip=* --NotebookApp.password="$PASSWD" "$@"'
+CMD /bin/bash -c 'jupyter notebook --no-browser --allow-root --ip=* --NotebookApp.password="$PASSWD" "$@"'
+
+# (for local user and local access)
+#WORKDIR /srv/
+#USER 1000:1000
+#CMD /bin/bash -c 'jupyter notebook --no-browser --ip=127.0.0.1 --NotebookApp.password="$PASSWD" "$@"'
+

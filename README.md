@@ -1,7 +1,7 @@
 docker-keras-full
 =================
 
-***docker-keras-full*** is a [*Docker*](http://www.docker.com/) image built from *Debian 9* (amd64) with a full reproducible deep learning research environment based on [*Keras*](http://keras.io/) and [*Jupyter*](http://jupyter.org/). It supports CPU and GPU processing with [*TensorFlow*](http://www.tensorflow.org/), [*Theano*](http://deeplearning.net/software/theano/) and [*CNTK*](https://docs.microsoft.com/en-us/cognitive-toolkit/) backends. It features *Jupyter Notebook* with *Python 2 and 3* support and uses only Debian and Python packages (no manual installations).
+***docker-keras-full*** is a [*Docker*](http://www.docker.com/) image built from *Debian 9* (amd64) with a deep learning research environment based on [*Keras*](http://keras.io/) and [*Jupyter*](http://jupyter.org/). It supports CPU and GPU processing with [*TensorFlow*](http://www.tensorflow.org/), [*Theano*](http://deeplearning.net/software/theano/) and [*CNTK*](https://docs.microsoft.com/en-us/cognitive-toolkit/) backends. It features *Jupyter Notebook* with *Python 2 and 3* support and uses only Debian and Python packages (no manual installations).
 
 Open source project:
 
@@ -12,7 +12,8 @@ Open source project:
 
 Available tags:
 
-- `2.1.1`, `latest` [2017-12-01]: *Python 2.7/3.5* + *Keras* <small>(2.1.1)</small> + *TensorFlow* <small>(1.4.0)</small> + *Theano* <small>(1.0.0)</small> + *CNTK* <small>(2.3)</small> on CPU/GPU
+- `2.1.3`, `latest` [2018-01-17]: *Python 2.7/3.5* + *Keras* <small>(2.1.3)</small> + *TensorFlow* <small>(1.4.1)</small> + *Theano* <small>(1.0.1)</small> + *CNTK* <small>(2.3)</small> on CPU/GPU
+- `2.1.1` [2017-12-01]: *Python 2.7/3.5* + *Keras* <small>(2.1.1)</small> + *TensorFlow* <small>(1.4.0)</small> + *Theano* <small>(1.0.0)</small> + *CNTK* <small>(2.3)</small> on CPU/GPU
 - `2.0.2` [2017-03-27]: *Python 2.7/3.5* + *Keras* <small>(2.0.2)</small> + *TensorFlow* <small>(1.0.1)</small> + *Theano* <small>(0.9.0)</small> on CPU/GPU
 - `1.2.0` [2016-12-21]: *Python 2.7/3.5* + *Keras* <small>(1.2.0)</small> + *TensorFlow* <small>(0.12.0)</small> + *Theano* <small>(0.8.2)</small> on CPU/GPU
 - `1.1.0` [2016-09-20]: *Python 2.7/3.5* + *Keras* <small>(1.1.0)</small> + *TensorFlow* <small>(0.10.0)</small> + *Theano* <small>(0.8.2)</small> on CPU/GPU
