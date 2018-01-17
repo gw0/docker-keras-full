@@ -1,7 +1,7 @@
 # docker-debian-cuda - Debian 9 with CUDA Toolkit
 
 FROM gw000/keras:2.1.1-gpu
-MAINTAINER gw0 [http://gw.tnode.com/] <gw.2017@ena.one>
+MAINTAINER gw0 [http://gw.tnode.com/] <gw.2018@ena.one>
 
 # install py2-tf-cpu/gpu (Python 2, TensorFlow, CPU/GPU)
 # (already installed in upstream image)
