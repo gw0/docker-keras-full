@@ -100,6 +100,7 @@ RUN pip --no-cache-dir install \
     ipython \
     ipykernel \
     jupyter \
+    jupyter-tensorboard \
     # data analysis (Python 2)
     pandas \
     scikit-learn \
@@ -127,17 +128,17 @@ RUN jupyter notebook --version \
  && python -c "import tensorflow; print(tensorflow.__version__)" \
  && python -c "import theano; print(theano.__version__)" \
  && python -c "import cntk; print(cntk.__version__)" \
+ && MPLBACKEND=Agg python -c "import matplotlib.pyplot" \
  && python3 -c "import tensorflow; print(tensorflow.__version__)" \
  && python3 -c "import theano; print(theano.__version__)" \
  && python3 -c "import cntk; print(cntk.__version__)" \
+ && MPLBACKEND=Agg python3 -c "import matplotlib.pyplot" \
  && dpkg-query -l > /dpkg-query-l.txt \
  && pip2 freeze > /pip2-freeze.txt \
  && pip3 freeze > /pip3-freeze.txt
 
 # for jupyter
 EXPOSE 8888
-# for tensorboard
-EXPOSE 6006
 
 # (for any user and remote access)
 WORKDIR /srv/

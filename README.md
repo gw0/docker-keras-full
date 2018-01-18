@@ -7,7 +7,7 @@ Open source project:
 
 - <i class="fa fa-fw fa-home"></i> home: <http://gw.tnode.com/docker/keras-full/>
 - <i class="fa fa-fw fa-github-square"></i> github: <http://github.com/gw0/docker-keras-full/>
-- <i class="fa fa-fw fa-laptop"></i> technology: *debian*, *keras*, *theano*, *tensorflow*, *cntk*, *openblas*, *cuda toolkit*, *python*, *python3*, *numpy*, *h5py*, *jupyter*, *matplotlib*, *pillow*, *pandas*, *scikit-learn*, *statsmodels*
+- <i class="fa fa-fw fa-laptop"></i> technology: *debian*, *keras*, *theano*, *tensorflow*, *cntk*, *openblas*, *cuda toolkit*, *python*, *python3*, *numpy*, *h5py*, *jupyter*, *tensorboard*, *matplotlib*, *pillow*, *pandas*, *scikit-learn*, *statsmodels*
 - <i class="fa fa-fw fa-database"></i> docker hub: <http://hub.docker.com/r/gw000/keras-full/>
 
 Available tags:
@@ -32,23 +32,25 @@ $ docker run -it --rm gw000/keras-full ipython2
 $ docker run -it --rm gw000/keras-full ipython3
 ```
 
-To start the Jupyter IPython web interface on `http://<ip>:8888/` (password: `keras`) and notebooks stored in `/srv/notebooks`:
+To start the Jupyter web interface on `http://<ip>:8888/` (password: `keras`) and notebooks stored in `/srv/notebooks`:
 
 ```bash
-$ docker run -d -p=6006:6006 -p=8888:8888 -v=/srv/notebooks:/srv gw000/keras-full
+$ docker run -d -p=8888:8888 -v=/srv/notebooks:/srv gw000/keras-full
 ```
 
 To utilize your GPUs this Docker image needs access to your `/dev/nvidia*` devices and libraries (see [docker-debian-cuda](http://gw.tnode.com/docker/debian-cuda/)), like:
 
 ```bash
-$ docker run -d $(ls /dev/nvidia* | xargs -I{} echo '--device={}') $(ls /usr/lib/*-linux-gnu/{libcuda,libnvidia}* | xargs -I{} echo '-v {}:{}:ro') -p=6006:6006 -p=8888:8888 -v=/srv/notebooks:/srv gw000/keras-full
+$ docker run -d $(ls /dev/nvidia* | xargs -I{} echo '--device={}') $(ls /usr/lib/*-linux-gnu/{libcuda,libnvidia}* | xargs -I{} echo '-v {}:{}:ro') -p=8888:8888 -v=/srv/notebooks:/srv gw000/keras-full
 ```
 
 To change the default password, prepare [a new hashed password](https://jupyter-notebook.readthedocs.io/en/latest/public_server.html#preparing-a-hashed-password) and pass it as an environment variable:
 
 ```bash
-$ docker run -d -p=6006:6006 -p=8888:8888 -e PASSWD="sha1:..." -v=/srv/notebooks:/srv gw000/keras-full
+$ docker run -d -p=8888:8888 -e PASSWD="sha1:..." -v=/srv/notebooks:/srv gw000/keras-full
 ```
+
+If the TensorFlow backend is used, it is possible to start the TensorBoard visualization tool directly from the Jupyter web interface ([see usage](https://github.com/lspvic/jupyter_tensorboard)).
 
 
 Feedback
