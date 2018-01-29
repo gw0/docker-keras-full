@@ -101,6 +101,7 @@ RUN pip --no-cache-dir install \
     ipykernel \
     jupyter \
     jupyter-tensorboard \
+    jupyter-kernel-gateway \
     # data analysis (Python 2)
     pandas \
     scikit-learn \
@@ -120,8 +121,7 @@ RUN pip --no-cache-dir install \
 RUN echo 'alias ll="ls --color=auto -lA"' >> /root/.bashrc \
  && echo '"\e[5~": history-search-backward' >> /root/.inputrc \
  && echo '"\e[6~": history-search-forward' >> /root/.inputrc
-# default password: keras
-ENV PASSWD='sha1:98b767162d34:8da1bc3c75a0f29145769edc977375a373407824'
+ENV SHELL=/bin/bash
 
 # quick test and dump package lists
 RUN jupyter notebook --version \
@@ -137,15 +137,38 @@ RUN jupyter notebook --version \
  && pip2 freeze > /pip2-freeze.txt \
  && pip3 freeze > /pip3-freeze.txt
 
-# for jupyter
+# for jupyter and addons
 EXPOSE 8888
 
-# (for any user and remote access)
-WORKDIR /srv/
-CMD /bin/bash -c 'jupyter notebook --no-browser --allow-root --ip=* --NotebookApp.password="$PASSWD" "$@"'
+# run as user 1000
+RUN useradd --create-home --uid 1000 --user-group --shell /bin/bash user \
+ && cp -a /root/.jupyter /home/user/.jupyter \
+ && chown -R user:user /home/user/.jupyter
+USER user
 
-# (for local user and local access)
-#WORKDIR /srv/
-#USER 1000:1000
-#CMD /bin/bash -c 'jupyter notebook --no-browser --ip=127.0.0.1 --NotebookApp.password="$PASSWD" "$@"'
+# publicly accessible on any IP
+ENV IP=*
+# accessible only from localhost
+#ENV IP=127.0.0.1
+
+# only password authentication (password: keras)
+#ENV PASSWD='sha1:98b767162d34:8da1bc3c75a0f29145769edc977375a373407824'
+#unset ENV TOKEN=
+# password and token authentication (password and token: keras)
+ENV PASSWD='sha1:98b767162d34:8da1bc3c75a0f29145769edc977375a373407824'
+ENV TOKEN='keras'
+# random token authentication
+#unset ENV PASSWD=
+#unset ENV TOKEN=
+
+WORKDIR /srv/
+CMD /bin/bash -c 'jupyter notebook \
+    --NotebookApp.open_browser=False \
+    --NotebookApp.allow_root=True \
+    --NotebookApp.ip="$IP" \
+    ${PASSWD+--NotebookApp.password=\"$PASSWD\"} \
+    ${TOKEN+--NotebookApp.token=\"$TOKEN\"} \
+    --NotebookApp.allow_password_change=False \
+    --JupyterWebsocketPersonality.list_kernels=True \
+    "$@"'
 
