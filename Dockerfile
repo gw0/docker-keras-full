@@ -100,8 +100,8 @@ RUN pip --no-cache-dir install \
     ipython \
     ipykernel \
     jupyter \
-    jupyter-tensorboard \
     jupyter-kernel-gateway \
+    jupyter-tensorboard \
     # data analysis (Python 2)
     pandas \
     scikit-learn \
@@ -125,6 +125,7 @@ ENV SHELL=/bin/bash
 
 # quick test and dump package lists
 RUN jupyter notebook --version \
+ && jupyter nbextension list 2>&1 \
  && python -c "import tensorflow; print(tensorflow.__version__)" \
  && python -c "import theano; print(theano.__version__)" \
  && python -c "import cntk; print(cntk.__version__)" \
@@ -137,13 +138,10 @@ RUN jupyter notebook --version \
  && pip2 freeze > /pip2-freeze.txt \
  && pip3 freeze > /pip3-freeze.txt
 
-# for jupyter and addons
-EXPOSE 8888
-
 # run as user 1000
 RUN useradd --create-home --uid 1000 --user-group --shell /bin/bash user \
- && cp -a /root/.jupyter /home/user/.jupyter \
- && chown -R user:user /home/user/.jupyter
+ && cp -a /root/.jupyter /root/.local /home/user \
+ && chown -R user:user /home/user
 USER user
 
 # publicly accessible on any IP
@@ -161,6 +159,7 @@ ENV TOKEN='keras'
 #unset ENV PASSWD=
 #unset ENV TOKEN=
 
+EXPOSE 8888
 WORKDIR /srv/
 CMD /bin/bash -c 'jupyter notebook \
     --NotebookApp.open_browser=False \
@@ -171,4 +170,3 @@ CMD /bin/bash -c 'jupyter notebook \
     --NotebookApp.allow_password_change=False \
     --JupyterWebsocketPersonality.list_kernels=True \
     "$@"'
-
