@@ -134,14 +134,15 @@ RUN jupyter notebook --version \
  && python3 -c "import theano; print(theano.__version__)" \
  && python3 -c "import cntk; print(cntk.__version__)" \
  && MPLBACKEND=Agg python3 -c "import matplotlib.pyplot" \
+ && rm -rf /tmp/* \
  && dpkg-query -l > /dpkg-query-l.txt \
  && pip2 freeze > /pip2-freeze.txt \
  && pip3 freeze > /pip3-freeze.txt
 
 # run as user 1000
-RUN useradd --create-home --uid 1000 --user-group --shell /bin/bash user \
+RUN useradd --create-home --uid 1000 --user-group --groups video --shell /bin/bash user \
  && cp -a /root/.jupyter /root/.local /home/user \
- && chown -R user:user /home/user
+ && chown -R user:user /home/user /srv
 USER user
 
 # publicly accessible on any IP
