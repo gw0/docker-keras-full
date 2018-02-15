@@ -1,6 +1,6 @@
 # docker-keras-full - Deep learning environment with *Keras* and *Jupyter* using CPU or GPU
 
-FROM gw000/keras:2.1.3-gpu
+FROM gw000/keras:2.1.4-gpu
 MAINTAINER gw0 [http://gw.tnode.com/] <gw.2018@ena.one>
 
 # install py2-tf-cpu/gpu (Python 2, TensorFlow, CPU/GPU)
@@ -25,7 +25,7 @@ RUN apt-get update -qq \
     openmpi-common=1.10.2-8ubuntu1 \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
-ARG CNTK_VERSION=2.3
+ARG CNTK_VERSION=2.4
 ARG CNTK_DEVICE=CPU-Only
 RUN pip --no-cache-dir install https://cntk.ai/PythonWheel/${CNTK_DEVICE}/cntk-${CNTK_VERSION}-cp27-cp27mu-linux_x86_64.whl
 
@@ -55,7 +55,10 @@ RUN apt-get update -qq \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-ARG TENSORFLOW_VERSION=1.4.1
+# manually update numpy
+RUN pip3 --no-cache-dir install -U numpy==1.13.3
+
+ARG TENSORFLOW_VERSION=1.5.0
 ARG TENSORFLOW_DEVICE=gpu
 ARG TENSORFLOW_APPEND=_gpu
 RUN pip3 --no-cache-dir install https://storage.googleapis.com/tensorflow/linux/${TENSORFLOW_DEVICE}/tensorflow${TENSORFLOW_APPEND}-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl
@@ -66,12 +69,12 @@ ENV THEANO_FLAGS='device=cpu,floatX=float32'
 RUN pip3 --no-cache-dir install git+https://github.com/Theano/Theano.git@rel-${THEANO_VERSION}
 
 # install py3-cntk-cpu/gpu (Python 3, CNTK, CPU/GPU)
-ARG CNTK_VERSION=2.3
+ARG CNTK_VERSION=2.4
 ARG CNTK_DEVICE=GPU
 RUN pip3 --no-cache-dir install https://cntk.ai/PythonWheel/${CNTK_DEVICE}/cntk-${CNTK_VERSION}-cp35-cp35m-linux_x86_64.whl
 
 # install Keras for Python 3
-ARG KERAS_VERSION=2.1.3
+ARG KERAS_VERSION=2.1.4
 ENV KERAS_BACKEND=tensorflow
 RUN pip3 --no-cache-dir install --no-dependencies git+https://github.com/fchollet/keras.git@${KERAS_VERSION}
 
@@ -126,10 +129,12 @@ ENV SHELL=/bin/bash
 # quick test and dump package lists
 RUN jupyter notebook --version \
  && jupyter nbextension list 2>&1 \
+ && python -c "import numpy; print(numpy.__version__)" \
  && python -c "import tensorflow; print(tensorflow.__version__)" \
  && python -c "import theano; print(theano.__version__)" \
  && python -c "import cntk; print(cntk.__version__)" \
  && MPLBACKEND=Agg python -c "import matplotlib.pyplot" \
+ && python3 -c "import numpy; print(numpy.__version__)" \
  && python3 -c "import tensorflow; print(tensorflow.__version__)" \
  && python3 -c "import theano; print(theano.__version__)" \
  && python3 -c "import cntk; print(cntk.__version__)" \

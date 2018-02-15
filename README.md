@@ -12,7 +12,7 @@ Open source project:
 
 Available tags:
 
-- `2.1.3`, `latest` [2018-01-17]: *Python 2.7/3.5* + *Keras* <small>(2.1.3)</small> + *TensorFlow* <small>(1.4.1)</small> + *Theano* <small>(1.0.1)</small> + *CNTK* <small>(2.3)</small> on CPU/GPU
+- `2.1.4`, `latest` [2018-02-15]: *Python 2.7/3.5* + *Keras* <small>(2.1.4)</small> + *TensorFlow* <small>(1.5.0)</small> + *Theano* <small>(1.0.1)</small> + *CNTK* <small>(2.4)</small> on CPU/GPU
 - `2.1.1` [2017-12-01]: *Python 2.7/3.5* + *Keras* <small>(2.1.1)</small> + *TensorFlow* <small>(1.4.0)</small> + *Theano* <small>(1.0.0)</small> + *CNTK* <small>(2.3)</small> on CPU/GPU
 - `2.0.2` [2017-03-27]: *Python 2.7/3.5* + *Keras* <small>(2.0.2)</small> + *TensorFlow* <small>(1.0.1)</small> + *Theano* <small>(0.9.0)</small> on CPU/GPU
 - `1.2.0` [2016-12-21]: *Python 2.7/3.5* + *Keras* <small>(1.2.0)</small> + *TensorFlow* <small>(0.12.0)</small> + *Theano* <small>(0.8.2)</small> on CPU/GPU
@@ -32,22 +32,22 @@ $ docker run -it --rm gw000/keras-full ipython2
 $ docker run -it --rm gw000/keras-full ipython3
 ```
 
-To start the Jupyter web interface on `http://<ip>:8888/` (password: `keras`) and notebooks stored in `/srv/notebooks`:
+To start the Jupyter web interface on `http://<ip>:8888/` (password: `keras`) and notebooks stored in current directory (will be mapped to `/srv`):
 
 ```bash
-$ docker run -d -p=8888:8888 -v=/srv/notebooks:/srv gw000/keras-full
+$ docker run -d -p 8888:8888 -v $(pwd):/srv gw000/keras-full
 ```
 
-To utilize your GPUs this Docker image needs access to your `/dev/nvidia*` devices and libraries (see [docker-debian-cuda](http://gw.tnode.com/docker/debian-cuda/)), like:
+To utilize your GPUs this Docker image needs access to your `/dev/nvidia*` devices and *CUDA Driver* libraries (see [docker-debian-cuda](http://gw.tnode.com/docker/debian-cuda/)), like:
 
 ```bash
-$ docker run -d $(ls /dev/nvidia* | xargs -I{} echo '--device={}') $(ls /usr/lib/*-linux-gnu/{libcuda,libnvidia}* | xargs -I{} echo '-v {}:{}:ro') -p=8888:8888 -v=/srv/notebooks:/srv gw000/keras-full
+$ docker run -d $(ls /dev/nvidia* | xargs -I{} echo '--device={}') $(ls /usr/lib/*-linux-gnu/{libcuda,libnvidia}* | xargs -I{} echo '-v {}:{}:ro') -p 8888:8888 -v $(pwd):/srv gw000/keras-full
 ```
 
-To change the default password, prepare [a new hashed password](https://jupyter-notebook.readthedocs.io/en/latest/public_server.html#preparing-a-hashed-password) and pass it as an environment variable:
+To change the default password and token authentication, prepare [a new hashed password](https://jupyter-notebook.readthedocs.io/en/latest/public_server.html#preparing-a-hashed-password) and a token string and pass it as environment variables:
 
 ```bash
-$ docker run -d -p=8888:8888 -e PASSWD="sha1:..." -v=/srv/notebooks:/srv gw000/keras-full
+$ docker run -d -p 8888:8888 -e PASSWD="sha1:..." -e TOKEN="..." -v $(pwd):/srv gw000/keras-full
 ```
 
 If the TensorFlow backend is used, it is possible to start the TensorBoard visualization tool directly from the Jupyter web interface ([see usage](https://github.com/lspvic/jupyter_tensorboard)).
